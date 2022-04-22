@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +28,10 @@ public class TextProcessor {
 	 * @throws ParsingFileException
 	 */
 	public static void main(String args[]) throws ParsingFileException {
-		String filePath = "books.txt";
+		String filePath = "book.txt";
 
 		List<String> words = getWordsFromTextFile(filePath);
+		Collections.sort(words, (a, b)->Integer.compare(a.length(), b.length())); // sort list based on length
 		Map<String, String> reversePairList = new HashMap<>();
 		Map<String, String> listOfReverseWords = findReverseWords(reversePairList, words);
 		for (String key : listOfReverseWords.keySet()) {
@@ -60,7 +62,7 @@ public class TextProcessor {
 			String reverse = new String(new StringBuffer(word).reverse()); /* reverse the string */
 			List<String> wordsToRemove = new ArrayList<>();
 			wordsToRemove.add(word);
-			if (word.length() > 1 && words.contains(reverse)) { /* check if reverse string exists in the list */
+			if (word.length() > 1 && !word.equals(reverse) && words.contains(reverse)) { /* check if reverse string exists in the list */
 				System.out.println(word);
 				System.out.println(reverse);
 
